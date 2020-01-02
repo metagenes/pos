@@ -24,7 +24,28 @@ exports.getOrders = (req, page) => {
         }).catch(err => reject(err));
     });
 }
-
+exports.dataChart = (req, orderProdId) => {
+    return new Promise((resolve, reject) => {
+      const prodId = req.params.prod_id || orderProdId || req.body.prod_id;
+      const sql = `SELECT SUM(total_price) as total_tahun from tb_orders WHERE created_at_ord BETWEEN '2020-01-01 00:00:00' AND '2021-01-01 23:30:00'`;
+  
+      conn.query(sql, (err, result) => {
+        if (!err) resolve(result);
+        else reject(err);
+      });
+    });
+  };
+  exports.dataSales = (req, orderProdId) => {
+    return new Promise((resolve, reject) => {
+      const prodId = req.params.prod_id || orderProdId || req.body.prod_id;
+      const sql = `SELECT SUM(tb_orders_detail.quantity) as totalsales from tb_orders_detail`;
+  
+      conn.query(sql, (err, result) => {
+        if (!err) resolve(result);
+        else reject(err);
+      });
+    });
+  };
 exports.newOrder = async (req, order) => {
     return new Promise((resolve, reject) => {
         conn.query('INSERT INTO tb_orders SET admin_id = ?, order_id = ?, total_price = ?',

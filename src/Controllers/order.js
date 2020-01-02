@@ -16,6 +16,28 @@ exports.getOrders = (req, res) => {
       response.error(res, err);
     });
 };
+exports.dataChart = (req, res) => {
+  const page = pagination(req);
+  model
+    .dataChart(req, page)
+    .then(result => {
+      response.success(res, result);
+    })
+    .catch(err => {
+      response.error(res, err);
+    });
+};
+exports.dataSales = (req, res) => {
+  const page = pagination(req);
+  model
+  .dataSales(req, page)
+    .then(result => {
+      response.success(res, result);
+    })
+    .catch(err => {
+      response.error(res, err);
+    });
+}
 
 exports.newOrder = async (req, res) => {
   if (req.body.admin_id == null)
